@@ -1,0 +1,29 @@
+<Label>:
+	font_size: 40
+<CustomWidget>:
+	Label:
+		text: 'count:'
+		pos: root.width*.1,root.height*.8
+	Label:
+		id: cnt
+		text: '0'
+		pos: root.width*.3,root.height*.8
+	Label:
+		text: 'bank:'
+		pos: root.width*.1,root.height*.7
+	Label:
+		id: bnk
+		text: root.getBank()
+		pos: root.width*.3,root.height*.7
+	Button:
+		text: 'gather'
+		size: root.width*.2,root.height*.1
+		pos: root.width*.1,root.height*.1
+		on_press: cnt.text = str(int(cnt.text)+1)
+	Button:
+		text: 'invest'
+		size: root.width*.2,root.height*.1
+		pos: root.width*.7,root.height*.1
+		on_press: root.invest()
+		
+	
