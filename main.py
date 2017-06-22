@@ -3,6 +3,7 @@ from kivy.uix.carousel import Carousel
 from kivy.storage.jsonstore import JsonStore
 import os.path
 import sys
+import testapp_constants as AppCnst
 
 class RootWidget(Carousel):
     def getUserDataDir(self, *args):
@@ -17,7 +18,6 @@ class RootWidget(Carousel):
     def getSaveFilePath(self, *args):
         savefilepath = ''
         try:
-            #savefilepath = str(self.getUserDataDir() + '\\testapp_savefile.txt')
             savefilepath = os.path.join(self.getUserDataDir(),'testapp_savefile.txt')
         except:
             self.printException(sys.exc_info())
@@ -42,7 +42,11 @@ class RootWidget(Carousel):
             self.printException(sys.exc_info())
         return cntText
 
-
+    def setScatterImage(self, *args):
+        codeInp = self.ids.codeInp.text.strip()
+        if codeInp in AppCnst.CODES:
+            self.ids.scatterimg.source = AppCnst.CODES[codeInp]
+        self.load_slide(self.ids.scatterslide)
     
 class TempApp(App):
     def on_pause(self, *args):
