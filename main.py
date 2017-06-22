@@ -1,31 +1,54 @@
 from kivy.app import App
-
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.widget import Widget
+from kivy.uix.carousel import Carousel
 from kivy.storage.jsonstore import JsonStore
+import os.path
+import sys
 
-class CustomWidget(Widget):
-    def invest(self, *args):
-        bank = self.ids.bnk.text
-        count = self.ids.cnt.text
-        self.ids.bnk.text = str(int(bank)+int(count))
-        self.ids.cnt.text = '0'
-        store = JsonStore('db.json')
-        store['p1'] = {'bank':self.ids.bnk.text}
-        print store['p1']
-    def getBank(self, *args):
-        store = JsonStore('db.json')
-        if store.exists('p1'):
-            return str(store['p1']['bank'])
-        else:
-            store['p1'] = {'bank':'0'}
-            return '0'
+class RootWidget(Carousel):
+    def getUserDataDir(self, *args):
+        return App.get_running_app().user_data_dir
+    
+    def printException(self, expt, *args):
+        print expt
+        exptStr = (str(expt[0])+'\n'+str(expt[1])+'\n'+str(expt[2]))
+        self.ids.lblexp.text = exptStr
+        self.load_slide(self.ids.debugslide)
+        
+    def getSaveFilePath(self, *args):
+        savefilepath = ''
+        try:
+            #savefilepath = str(self.getUserDataDir() + '\\testapp_savefile.txt')
+            savefilepath = os.path.join(self.getUserDataDir(),'testapp_savefile.txt')
+        except:
+            self.printException(sys.exc_info())
+        return savefilepath
+    
+    def incrementCount(self, *args):
+        try:
+            cntText = self.ids.cnt.text
+            self.ids.cnt.text = str(int(cntText)+1)
+            store = JsonStore(self.getSaveFilePath())
+            store['p1'] = {'count':self.ids.cnt.text,'test':'testdata'}
+        except:
+            self.printException(sys.exc_info())
+        
+    def getCount(self, *args):
+        cntText = '0'
+        try:
+            store = JsonStore(self.getSaveFilePath())
+            if store.exists('p1'):
+                cntText = str(store['p1']['count'])
+        except:
+            self.printException(sys.exc_info())
+        return cntText
 
+
+    
 class TempApp(App):
-    def on_pause(self):
+    def on_pause(self, *args):
         return True
     def build(self, *args):
-        return CustomWidget()
+        return RootWidget()
 
 if __name__ == '__main__':
     TempApp().run()
