@@ -1,23 +1,27 @@
+<BoxLayout>:
+	padding: self.width*.05,self.height*.15
+	spacing: self.width*.05
 <RootWidget>:
 	BoxLayout:
+		orientation: 'vertical'
+		BoxLayout:
+			TextInput:
+				id: codeInp
+				text: ''
+				font_size: self.height*.4
+			Button:
+				text: 'code'
+				font_size: self.height*.4
+				on_press: root.setScatterImage()
 		BoxLayout:
 			Label:
 				id: cnt
-				font_size: 50
+				font_size: self.height*.6
 				text: root.getCount()
 			Button:
 				text: 'count'
-				font_size: 50
+				font_size: self.height*.4
 				on_press: root.incrementCount()
-	BoxLayout:
-		TextInput:
-			id: codeInp
-			text: ''
-			font_size: 50
-		Button:
-			text: 'ok'
-			font_size: 50
-			on_press: root.setScatterImage()
 	FloatLayout:
 		id: scatterslide
 		Scatter:
@@ -30,12 +34,14 @@
 		Label:
 			text: 'debug data'
 			font_size: 50
-		Label:
-			text: 'App.get_running_app().user_data_dir = '+root.getUserDataDir()
-		Label: 
-			text: str('save file path = '+root.getSaveFilePath())
-		ScrollView:
+		BoxLayout:
+			orientation: 'vertical'
 			Label:
-				id: lblexp
-				text: ''
-		
+				text: 'App.get_running_app().user_data_dir = '+root.getUserDataDir()
+			Label: 
+				text: str('save file path = '+root.getSaveFilePath())
+			ScrollView:
+				Label:
+					id: lblexp
+					text: ''
+			

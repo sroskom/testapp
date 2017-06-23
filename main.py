@@ -10,7 +10,7 @@ class RootWidget(Carousel):
         return App.get_running_app().user_data_dir
     
     def printException(self, expt, *args):
-        print expt
+        print(expt)
         exptStr = (str(expt[0])+'\n'+str(expt[1])+'\n'+str(expt[2]))
         self.ids.lblexp.text = exptStr
         self.load_slide(self.ids.debugslide)
